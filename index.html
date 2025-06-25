@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Документация бота Мита</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+  <style>
+    /* CSS Variables for themes */
+    :root {
+      --color-bg: #f8f9fa;
+      --color-text: #212529;
+      --color-primary: #6f42c1;
+      --color-secondary: #343a40;
+      --color-accent: #00d26a;
+      --color-code-bg: #e9ecef;
+      --color-link: #6f42c1;
+      --color-link-hover: #5a34a6;
+      --color-border: #dee2e6;
+      --transition-speed: 0.3s;
+    }
+    [data-theme="dark"] {
+      --color-bg: #121217;
+      --color-text: #e0e0e0;
+      --color-primary: #bb86fc;
+      --color-secondary: #212121;
+      --color-accent: #00d26a;
+      --color-code-bg: #1e1e2f;
+      --color-link: #bb86fc;
+      --color-link-hover: #a371f7;
+      --color-border: #333;
+    }
+    /* Reset & base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: var(--color-link);
+      text-decoration: none;
+      transition: color var(--transition-speed);
+    }
+    a:hover {
+      color: var(--color-link-hover);
+    }
+    h1, h2, h3 {
+      font-weight: 700;
+      margin-bottom: 0.5em;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 2rem;
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: 0.3em;
+      margin-top: 2em;
+    }
+    h3 {
+      font-size: 1.4rem;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+    ul, ol {
+      padding-left: 1.2em;
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+    li {
+      margin-bottom: 0.4em;
+    }
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: var(--color-code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.95em;
+      user-select: all;
+    }
+    pre {
+      background-color: var(--color-code-bg);
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+      line-height: 1.4;
+      margin: 1em 0;
+      border: 1px solid var(--color-border);
+    }
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 2rem auto 4rem;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+    /* Header */
+    header {
+      background-color: var(--color-primary);
+      color: white;
+      padding: 1rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 900;
+      font-size: 1.8rem;
+      user-select: none;
+      cursor: default;
+    }
+    nav a {
+      margin-left: 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    nav a:first-child {
+      margin-left: 0;
+    }
+    /* Theme toggle */
+    .theme-toggle {
+      background: none;
+      border: 2px solid white;
+      border-radius: 20px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.25rem 0.75rem;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      user-select: none;
+    }
+    .theme-toggle:hover {
+      background-color: white;
+      color: var(--color-primary);
+    }
+    /* Section styles */
+    section {
+      margin-bottom: 3rem;
+    }
+    /* Command list */
+    .commands-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .commands-list li {
+      background-color: var(--color-secondary);
+      color: white;
+      padding: 0.7em 1em;
+      margin-bottom: 0.6em;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      user-select: text;
+    }
+    /* Buttons & links */
+    .btn-primary {
+      background-color: var(--color-accent);
+      color: var(--color-secondary);
+      border: none;
+      padding: 0.6em 1.2em;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color var(--transition-speed);
+      text-decoration: none;
+      display: inline-block;
+      user-select: none;
+    }
+    .btn-primary:hover {
+      background-color: #00c15f;
+      text-decoration: none;
+      color: var(--color-secondary);
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 0.5rem;
+      }
+      nav a {
+        margin-left: 0.7rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mita</h1>
+    <nav>
+      <a href="#overview">Обзор</a>
+      <a href="#commands">Команды</a>
+      <a href="#setup">Настройка</a>
+      <a href="#examples">Примеры</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">🌞</button>
+  </header>
+
+  <main class="container" role="main">
+    <section id="overview" tabindex="-1">
+      <h2>Обзор</h2>
+      <p><strong>Мита</strong> — это ИИ-бот для общения, ролевых игр и кастомизации, использующий систему персон и памяти. Бот поддерживает личные сообщения и работу на серверах, а характер можно настраивать.</p>
+      <pre><code class="language-js">[
+  "ИИ",
+  "Персоны",
+  "Память",
+  "Общение в ЛС и на серверах",
+  "Кастомизация",
+  "SQL-хранение данных",
+  "Ответы в стиле ролевой игры"
+]</code></pre>
+    </section>
+
+    <section id="commands" tabindex="-1">
+      <h2>Основные команды</h2>
+      <ul class="commands-list">
+        <li><code>/setchannel</code> — устанавливает канал, на котором Мита будет отвечать.</li>
+        <li><code>/unchannel</code> — деактивирует канал, на котором Мита будет отвечать.</li>
+        <li><code>/setpersona</code> — устанавливает характер для Миты.</li>
+        <li><code>/resetpersona</code> — обнуляет характер Миты.</li>
+        <li><code>/showpersona</code> — показывает нынешнюю установленную персону для Миты.</li>
+        <li><code>/whocreator</code> — показывает, кто участвовал в разработке Миты.</li>
+        <li><code>/clear</code> — очищает память разговора с Митой.</li>
+      </ul>
+    </section>
+
+    <section id="setup" tabindex="-1">
+      <h2>Настройка</h2>
+      <ol>
+        <li>Пригласите бота на сервер.</li>
+        <li>Дайте права отвечать ей в каком-либо канале через команду <code>/setchannel</code> (желательно создать для неё отдельный).</li>
+        <li>Используйте команду <code>/setpersona</code>, чтобы установить свой уникальный характер для Миты.</li>
+      </ol>
+    </section>
+
+    <section id="examples" tabindex="-1">
+      <h2>Примеры использования</h2>
+      <p>Пример, как настроить Миту в ЛС для весёлого общения:</p>
+      <ol>
+        <li>Напишите боту в личные сообщения.</li>
+        <li>Введите команду <code>/setpersona</code> и задайте: <em>«Ты весёлая, энергичная и немного дерзкая помощница»</em>.</li>
+        <li>Мита начнёт отвечать в заданном стиле.</li>
+      </ol>
+    </section>
+
+    <section id="faq" tabindex="-1">
+      <h2>FAQ и планы на будущее</h2>
+      <ul>
+        <li>Бот активно развивается и скоро появятся голосовой режим, эмоции и система наград.</li>
+        <li>Поддерживается работа как в ЛС, так и на серверах.</li>
+        <li>Характер Миты можно гибко настраивать для каждого пользователя и сервера.</li>
+      </ul>
+    </section>
+  </main>
+  <footer style="text-align:center; padding:1.5rem 1rem; border-top:1px solid var(--color-border); color: var(--color-text); font-size:0.9rem;">
+  © <span id="year"></span> NiZaMinius • Документация бота Мита
+  </footer>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const htmlElem = document.documentElement;
+
+    function updateThemeIcon(theme) {
+      toggleBtn.textContent = theme === 'dark' ? '🌚' : '🌞';
+    }
+
+    // Load saved theme or system preference
+    let savedTheme = localStorage.getItem('theme');
+    if (!savedTheme) {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      savedTheme = prefersDark ? 'dark' : 'light';
+    }
+    htmlElem.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    toggleBtn.addEventListener('click', () => {
+      let currentTheme = htmlElem.getAttribute('data-theme');
+      let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlElem.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+  </script>
+  
+</body>
+</html>
