@@ -14,7 +14,7 @@
       --color-secondary: #343a40;
       --color-accent: #00d26a;
       --color-code-bg: #e9ecef;
-      --color-link: #ffffff;
+      --color-link: #ffffff; /* ссылки белые в светлой теме */
       --color-link-hover: #5a34a6;
       --color-border: #dee2e6;
       --transition-speed: 0.3s;
@@ -26,7 +26,7 @@
       --color-secondary: #212121;
       --color-accent: #00d26a;
       --color-code-bg: #1e1e2f;
-      --color-link: #bb86fc;
+      --color-link: #bb86fc; /* яркий цвет ссылок в темной теме */
       --color-link-hover: #a371f7;
       --color-border: #333;
     }
@@ -120,6 +120,7 @@
       top: 0;
       z-index: 999;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      flex-wrap: wrap;
     }
     header h1 {
       margin: 0;
@@ -128,16 +129,31 @@
       user-select: none;
       cursor: default;
     }
+    nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 0.5rem 0;
+      flex-grow: 1;
+      justify-content: center;
+    }
     nav a {
-      margin-left: 1.5rem;
       font-weight: 600;
       font-size: 1rem;
+      color: var(--color-link);
     }
     nav a:first-child {
       margin-left: 0;
     }
-    /* Theme toggle */
-    .theme-toggle {
+    /* Theme toggle and lang buttons */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: nowrap;
+    }
+    .theme-toggle, .lang-toggle {
       background: none;
       border: 2px solid white;
       border-radius: 20px;
@@ -147,8 +163,10 @@
       padding: 0.25rem 0.75rem;
       transition: background-color var(--transition-speed), color var(--transition-speed);
       user-select: none;
+      min-width: 45px;
+      text-align: center;
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover, .lang-toggle:hover {
       background-color: white;
       color: var(--color-primary);
     }
@@ -200,10 +218,16 @@
       }
       nav {
         margin-top: 0.5rem;
+        justify-content: flex-start;
       }
       nav a {
-        margin-left: 0.7rem;
         font-size: 0.9rem;
+      }
+      .controls {
+        justify-content: flex-start;
+        width: 100%;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
       }
     }
   </style>
@@ -212,19 +236,23 @@
   <header>
     <h1>Mita</h1>
     <nav>
-      <a href="#overview">Обзор</a>
-      <a href="#commands">Команды</a>
-      <a href="#setup">Настройка</a>
-      <a href="#examples">Примеры</a>
-      <a href="#faq">FAQ</a>
+      <a href="#overview" data-lang-key="nav-overview">Обзор</a>
+      <a href="#commands" data-lang-key="nav-commands">Команды</a>
+      <a href="#setup" data-lang-key="nav-setup">Настройка</a>
+      <a href="#examples" data-lang-key="nav-examples">Примеры</a>
+      <a href="#faq" data-lang-key="nav-faq">FAQ</a>
     </nav>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">🌞</button>
+    <div class="controls">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">🌞</button>
+      <button class="lang-toggle" id="lang-ru" aria-label="Русский">RU</button>
+      <button class="lang-toggle" id="lang-en" aria-label="English">EN</button>
+    </div>
   </header>
 
   <main class="container" role="main">
     <section id="overview" tabindex="-1">
-      <h2>Обзор</h2>
-      <p><strong>Мита</strong> — это ИИ-бот для общения, ролевых игр и кастомизации, использующий систему персон и памяти. Бот поддерживает личные сообщения и работу на серверах, а характер можно настраивать.</p>
+      <h2 data-lang-key="overview-title">Обзор</h2>
+      <p data-lang-key="overview-text"><strong>Мита</strong> — это ИИ-бот для общения, ролевых игр и кастомизации, использующий систему персон и памяти. Бот поддерживает личные сообщения и работу на серверах, а характер можно настраивать.</p>
       <pre><code class="language-js">[
   "ИИ",
   "Персоны",
@@ -237,53 +265,54 @@
     </section>
 
     <section id="commands" tabindex="-1">
-      <h2>Основные команды</h2>
+      <h2 data-lang-key="commands-title">Основные команды</h2>
       <ul class="commands-list">
-        <li><code>/setchannel</code> — устанавливает канал, на котором Мита будет отвечать.</li>
-        <li><code>/unchannel</code> — деактивирует канал, на котором Мита будет отвечать.</li>
-        <li><code>/setpersona</code> — устанавливает характер для Миты.</li>
-        <li><code>/resetpersona</code> — обнуляет характер Миты.</li>
-        <li><code>/showpersona</code> — показывает нынешнюю установленную персону для Миты.</li>
-        <li><code>/whocreator</code> — показывает, кто участвовал в разработке Миты.</li>
-        <li><code>/clear</code> — очищает память разговора с Митой.</li>
+        <li data-lang-key="cmd-setchannel"><code>/setchannel</code> — устанавливает канал, на котором Мита будет отвечать.</li>
+        <li data-lang-key="cmd-unchannel"><code>/unchannel</code> — деактивирует канал, на котором Мита будет отвечать.</li>
+        <li data-lang-key="cmd-setpersona"><code>/setpersona</code> — устанавливает характер для Миты.</li>
+        <li data-lang-key="cmd-resetpersona"><code>/resetpersona</code> — обнуляет характер Миты.</li>
+        <li data-lang-key="cmd-showpersona"><code>/showpersona</code> — показывает нынешнюю установленную персону для Миты.</li>
+        <li data-lang-key="cmd-whocreator"><code>/whocreator</code> — показывает, кто участвовал в разработке Миты.</li>
+        <li data-lang-key="cmd-clear"><code>/clear</code> — очищает память разговора с Митой.</li>
       </ul>
     </section>
 
     <section id="setup" tabindex="-1">
-      <h2>Настройка</h2>
+      <h2 data-lang-key="setup-title">Настройка</h2>
       <ol>
-        <li>Пригласите бота на сервер.</li>
-        <li>Дайте права отвечать ей в каком-либо канале через команду <code>/setchannel</code> (желательно создать для неё отдельный).</li>
-        <li>Используйте команду <code>/setpersona</code>, чтобы установить свой уникальный характер для Миты.</li>
+        <li data-lang-key="setup-step1">Пригласите бота на сервер.</li>
+        <li data-lang-key="setup-step2">Дайте права отвечать ей в каком-либо канале через команду <code>/setchannel</code> (желательно создать для неё отдельный).</li>
+        <li data-lang-key="setup-step3">Используйте команду <code>/setpersona</code>, чтобы установить свой уникальный характер для Миты.</li>
       </ol>
     </section>
 
     <section id="examples" tabindex="-1">
-      <h2>Примеры использования</h2>
-      <p>Пример, как настроить Миту в ЛС для весёлого общения:</p>
+      <h2 data-lang-key="examples-title">Примеры использования</h2>
+      <p data-lang-key="examples-text">Пример, как настроить Миту в ЛС для весёлого общения:</p>
       <ol>
-        <li>Напишите боту в личные сообщения.</li>
-        <li>Введите команду <code>/setpersona</code> и задайте: <em>«Ты весёлая, энергичная и немного дерзкая помощница»</em>.</li>
-        <li>Мита начнёт отвечать в заданном стиле.</li>
+        <li data-lang-key="examples-step1">Напишите боту в личные сообщения.</li>
+        <li data-lang-key="examples-step2">Введите команду <code>/setpersona</code> и задайте: <em>«Ты весёлая, энергичная и немного дерзкая помощница»</em>.</li>
+        <li data-lang-key="examples-step3">Мита начнёт отвечать в заданном стиле.</li>
       </ol>
     </section>
 
     <section id="faq" tabindex="-1">
-      <h2>FAQ и планы на будущее</h2>
+      <h2 data-lang-key="faq-title">FAQ и планы на будущее</h2>
       <ul>
-        <li>Бот активно развивается и скоро появятся голосовой режим, мультиплеерный режим и еще много чего крутого.</li>
-        <li>Поддерживается работа как в ЛС, так и на серверах.</li>
-        <li>Характер Миты можно гибко настраивать для пользователя и сервера.</li>
+        <li data-lang-key="faq-item1">Бот активно развивается и скоро появятся голосовой режим, мультиплеерный режим и еще много чего крутого.</li>
+        <li data-lang-key="faq-item2">Поддерживается работа как в ЛС, так и на серверах.</li>
+        <li data-lang-key="faq-item3">Характер Миты можно гибко настраивать для пользователя и сервера.</li>
       </ul>
     </section>
   </main>
   <footer style="text-align:center; padding:1.5rem 1rem; border-top:1px solid var(--color-border); color: var(--color-text); font-size:0.9rem;">
-  © <span id="year"></span> NiZaMinius • Документация бота Мита
+    © <span id="year"></span> NiZaMinius • <span data-lang-key="footer-text">Документация бота Мита</span>
   </footer>
   <script>
+    // Год
     document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-  <script>
+
+    // Темы
     const toggleBtn = document.getElementById('theme-toggle');
     const htmlElem = document.documentElement;
 
@@ -291,7 +320,7 @@
       toggleBtn.textContent = theme === 'dark' ? '🌚' : '🌞';
     }
 
-    // Load saved theme or system preference
+    // Загрузка темы из localStorage или системных настроек
     let savedTheme = localStorage.getItem('theme');
     if (!savedTheme) {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -307,7 +336,97 @@
       localStorage.setItem('theme', newTheme);
       updateThemeIcon(newTheme);
     });
+
+    // Языки
+    const langData = {
+      ru: {
+        "nav-overview": "Обзор",
+        "nav-commands": "Команды",
+        "nav-setup": "Настройка",
+        "nav-examples": "Примеры",
+        "nav-faq": "FAQ",
+        "overview-title": "Обзор",
+        "overview-text": "<strong>Мита</strong> — это ИИ-бот для общения, ролевых игр и кастомизации, использующий систему персон и памяти. Бот поддерживает личные сообщения и работу на серверах, а характер можно настраивать.",
+        "commands-title": "Основные команды",
+        "cmd-setchannel": "<code>/setchannel</code> — устанавливает канал, на котором Мита будет отвечать.",
+        "cmd-unchannel": "<code>/unchannel</code> — деактивирует канал, на котором Мита будет отвечать.",
+        "cmd-setpersona": "<code>/setpersona</code> — устанавливает характер для Миты.",
+        "cmd-resetpersona": "<code>/resetpersona</code> — обнуляет характер Миты.",
+        "cmd-showpersona": "<code>/showpersona</code> — показывает нынешнюю установленную персону для Миты.",
+        "cmd-whocreator": "<code>/whocreator</code> — показывает, кто участвовал в разработке Миты.",
+        "cmd-clear": "<code>/clear</code> — очищает память разговора с Митой.",
+        "setup-title": "Настройка",
+        "setup-step1": "Пригласите бота на сервер.",
+        "setup-step2": "Дайте права отвечать ей в каком-либо канале через команду <code>/setchannel</code> (желательно создать для неё отдельный).",
+        "setup-step3": "Используйте команду <code>/setpersona</code>, чтобы установить свой уникальный характер для Миты.",
+        "examples-title": "Примеры использования",
+        "examples-text": "Пример, как настроить Миту в ЛС для весёлого общения:",
+        "examples-step1": "Напишите боту в личные сообщения.",
+        "examples-step2": "Введите команду <code>/setpersona</code> и задайте: <em>«Ты весёлая, энергичная и немного дерзкая помощница»</em>.",
+        "examples-step3": "Мита начнёт отвечать в заданном стиле.",
+        "faq-title": "FAQ и планы на будущее",
+        "faq-item1": "Бот активно развивается и скоро появятся голосовой режим, мультиплеерный режим и еще много чего крутого.",
+        "faq-item2": "Поддерживается работа как в ЛС, так и на серверах.",
+        "faq-item3": "Характер Миты можно гибко настраивать для пользователя и сервера.",
+        "footer-text": "Документация бота Мита"
+      },
+      en: {
+        "nav-overview": "Overview",
+        "nav-commands": "Commands",
+        "nav-setup": "Setup",
+        "nav-examples": "Examples",
+        "nav-faq": "FAQ",
+        "overview-title": "Overview",
+        "overview-text": "<strong>Mita</strong> is an AI bot for chatting, roleplay, and customization using personas and memory. Supports DMs and servers, and you can customize its character.",
+        "commands-title": "Main Commands",
+        "cmd-setchannel": "<code>/setchannel</code> — sets the channel where Mita will respond.",
+        "cmd-unchannel": "<code>/unchannel</code> — disables the channel where Mita will respond.",
+        "cmd-setpersona": "<code>/setpersona</code> — sets Mita's persona.",
+        "cmd-resetpersona": "<code>/resetpersona</code> — resets Mita's persona.",
+        "cmd-showpersona": "<code>/showpersona</code> — shows the currently set persona for Mita.",
+        "cmd-whocreator": "<code>/whocreator</code> — shows who contributed to Mita's development.",
+        "cmd-clear": "<code>/clear</code> — clears the conversation memory with Mita.",
+        "setup-title": "Setup",
+        "setup-step1": "Invite the bot to your server.",
+        "setup-step2": "Grant permissions to respond in a channel via <code>/setchannel</code> (preferably create a dedicated one).",
+        "setup-step3": "Use <code>/setpersona</code> command to set a unique character for Mita.",
+        "examples-title": "Usage Examples",
+        "examples-text": "Example how to set up Mita in DMs for fun chatting:",
+        "examples-step1": "Message the bot in DMs.",
+        "examples-step2": "Enter <code>/setpersona</code> and set: <em>“You are a cheerful, energetic, and slightly sassy assistant”</em>.",
+        "examples-step3": "Mita will start responding in the given style.",
+        "faq-title": "FAQ and future plans",
+        "faq-item1": "The bot is actively developing and soon will have voice mode, multiplayer mode, and much more cool stuff.",
+        "faq-item2": "Works in both DMs and servers.",
+        "faq-item3": "Mita's character can be flexibly customized per user and server.",
+        "footer-text": "Mita bot documentation"
+      }
+    };
+
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      localStorage.setItem('lang', lang);
+      // Перебираем все элементы с data-lang-key и меняем содержимое
+      document.querySelectorAll('[data-lang-key]').forEach(el => {
+        const key = el.getAttribute('data-lang-key');
+        if (langData[lang] && langData[lang][key]) {
+          el.innerHTML = langData[lang][key];
+        }
+      });
+      // Дополнительно меняем lang для атрибута html
+    }
+
+    // Загрузка сохранённого языка или дефолт русский
+    let savedLang = localStorage.getItem('lang') || 'ru';
+    setLanguage(savedLang);
+
+    // Кнопки переключения языка
+    document.getElementById('lang-ru').addEventListener('click', () => setLanguage('ru'));
+    document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
   </script>
-  
+  <script>
+    // Год
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
